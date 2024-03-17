@@ -1,4 +1,6 @@
-const express=require('express');
+const express = require('express');
+const chatRoutes = require('./routes/chatRoutes');
+
 const cors = require('cors');
 const app=express();
 const port=5000;
@@ -7,9 +9,12 @@ const port=5000;
 app.use(cors());
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+
+app.use('/', chatRoutes);
+
+// app.get('/', (req, res) => {
+//     res.send('Helloddd, World!');
+// });
 
 
 app.listen(port, () => {

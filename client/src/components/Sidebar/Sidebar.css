@@ -33,6 +33,7 @@
 .sidebar .recent{
     display: flex;
     flex-direction: column;
+    animation: fadeIn 1.5s;
 }
 
 .sidebar .recent-title{
@@ -55,6 +56,28 @@
     background-color: #e2e6eb;
 }
 
+/* Tooltip text styles */
+.sidebar .recent-entry .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Positioning */
+    position: relative;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px; /* Adjust as necessary */
+  }
+  
+.sidebar .recent-entry:hover .tooltip-text {
+    visibility: visible;
+}
+
 .sidebar .bottom{
     display: flex;
     flex-direction: column;
@@ -63,5 +86,11 @@
 .sidebar .bottom-item{
     padding-right: 10px;
     cursor: pointer;
+}
+
+@media (max-width:600px){
+    .sidebar{
+        display:none ;
+    }
 }
 
