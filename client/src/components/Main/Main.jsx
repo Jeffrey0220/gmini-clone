@@ -1,12 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import './Main.css'
 import { assets } from '../../assets/assets'
-import { ChatContext } from '../../../context/ChatContext';
+import { ChatContext } from '../../context/ChatContext';
+import VoiceInput from '../../widgets/VoiceInput';
+import SpeakButton from '../../widgets/SpeakButton';
+import TranslationWidget from '../../widgets/TranslationWidget';
 
 const Main = () => {
   
 const {inputValue, setInputValue, response, sendPrompt, showResult, loading, recentPrompt} = useContext(ChatContext);
+const [showWarning, setShowWarning] = useState(false);
 
+const sendIconRef = useRef(null);
 
 
   return (
@@ -43,26 +48,51 @@ const {inputValue, setInputValue, response, sendPrompt, showResult, loading, rec
             </> : <div className="result">
                 <div className="result-title">
                     <img src={assets.user_icon} alt="" />
-                    <p>{recentPrompt}</p>
-                    
+                    <p>{recentPrompt}</p>                    
                 </div>
 
                 <div className="result-data">
                     <img src={assets.gemini_icon} alt="" />
                     {loading?<div className="loader">LOADING...</div> : <p dangerouslySetInnerHTML={{ __html: response }}></p>}
+                   
                 </div>
+                {response && <SpeakButton textToSpeak={response} />}
+                {/* {response && <TranslationWidget />} */}
             </div>
             }
 
             
 
             <div className="main-bottom">
+            {showWarning && <p className="warning">Please enter you question</p>}
                 <div className="search-box">
-                    <input type="text" placeholder='Enter a prompt here' value={inputValue} onChange={e=>setInputValue(e.target.value)}/>
+                
+                    <textarea type="text" required="required" placeholder='Enter a prompt here' value={inputValue} 
+                    onChange={e=>setInputValue(e.target.value)}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault(); // Prevent default to avoid newline in textarea                           
+                            sendIconRef.current.click();                         
+                        }
+                      }}
+                      rows="1"
+                      />
+
                     <div>
                         <img src={assets.gallery_icon} alt="" />
-                        <img src={assets.mic_icon} alt="" />
-                        <img src={assets.send_icon} alt="" onClick={() => sendPrompt(inputValue)}/>
+
+                       <VoiceInput />
+
+                        <img src={assets.send_icon} alt=""
+                        ref={sendIconRef}
+                        onClick={() => {
+                            if (!inputValue.trim()) {
+                              setShowWarning(true);
+                            } else {
+                              setShowWarning(false);
+                              sendPrompt(inputValue);
+                            }
+                          }}/>
                     </div>                 
                 </div>
                 <p className="bottom-info">

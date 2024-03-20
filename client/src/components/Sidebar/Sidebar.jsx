@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import './Sidebar.css'
 import {assets} from '../../assets/assets'
-import { ChatContext } from '../../../context/ChatContext';
+import { ChatContext } from '../../context/ChatContext';
 
 const Sidebar = () => {
     const [extended, setExtended]=useState(false);

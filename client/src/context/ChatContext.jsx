@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import runChat from "../src/config/gemini";
+//import runChat from "../src/config/gemini";
 
 export const ChatContext=createContext();
 
@@ -38,6 +38,7 @@ const ChatContextProvider=(props)=>{
     }
 
     const sendPromptToBackend = (prompt) => {
+      setInputValue("");
       console.log('Sending prompt to backend:', prompt);
       setLoading(true);
       setShowResult(true);
@@ -70,7 +71,7 @@ const ChatContextProvider=(props)=>{
         }
        // setResponse(result); // Assuming data.response contains the response you want to display
         setLoading(false);
-        setInputValue("")
+        //setInputValue("")
       })
       .catch(error => console.error('Error:', error));
     };
